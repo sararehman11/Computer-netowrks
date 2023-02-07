@@ -1,0 +1,69 @@
+#include <iostream>
+#include <vector>
+#include <bits/stdc++.h> w
+using namespace std;
+
+int main()
+{
+    int sum=0,pkt,leak = 10;
+    int choice;
+    vector <int> bucket;
+    int cap = 50;
+    while(true)
+    {
+        cout<<"1. Add packet\n2. No packets\n3. Exit\nEnter choice : ";
+        cin>>choice;
+        switch(choice)
+        {
+        case 1 :
+            cout<<"Enter pkt : ";
+            cin>>pkt;
+            if(pkt>cap-sum)
+                cout<<"Bucket OverFlow"<<endl;
+            else
+            {
+                bucket.push_back(pkt);
+                sum = accumulate(bucket.begin(), bucket.end(), 0);
+                cout<<"\nBefore leak"<<endl;
+                cout<<"sum = "<<sum<<" leak = "<<leak<<endl;
+            }
+            bucket.push_back(-leak);
+            sum = accumulate(bucket.begin(), bucket.end(), 0);
+            if(sum<0)
+                sum=0;
+            cout<<"\nAfter leak"<<endl;
+            cout<<"sum = "<<sum<<" leak = "<<leak<<endl;
+            break;
+
+        case 2:
+            if(sum>leak)
+            {
+                bucket.push_back(-leak);
+                sum = accumulate(bucket.begin(), bucket.end(), 0);
+                cout<<"sum = "<<sum<<" leak = "<<leak<<endl;
+            }
+            else if(sum<leak)
+            {
+                sum = 0;
+                cout<<"sum = "<<sum<<" leak = "<<leak<<endl;
+            }
+            else
+            {
+                bucket.push_back(-leak);
+                sum = accumulate(bucket.begin(), bucket.end(), 0);
+                cout<<"sum = "<<sum<<endl;
+                cout<<"\nBucket Empty"<<endl;
+            }
+            break;
+
+        case 3:
+            cout<<"\nexit";
+            exit(0);
+            break;
+        default :
+            cout<<"wrong choice\n";
+        }
+    }
+
+    return 0;
+}
